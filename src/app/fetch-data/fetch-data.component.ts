@@ -15,8 +15,7 @@ export class FetchDataComponent {
   htmlContent: string = '';
   errMsg: string = '';
 
-  constructor(private WebCrawlerService: WebCrawlerService) {
-  }
+  constructor(private WebCrawlerService: WebCrawlerService) {}
 
   getData(): void {
     this.WebCrawlerService.getBBC().subscribe({
