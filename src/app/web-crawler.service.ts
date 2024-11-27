@@ -7,11 +7,11 @@ import {HttpClient} from '@angular/common/http';
 })
 export class WebCrawlerService {
 
-  constructor(private http: HttpClient) {}
-
   private url='/bbc/';
+  constructor(private http: HttpClient) {
+  }
 
-  getDataFromBBC():Observable<string> {
+  getBBC():Observable<string> {
     return this.http.get(this.url,{responseType: 'text'});
   }
 }

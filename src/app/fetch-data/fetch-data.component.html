@@ -1,10 +1,10 @@
 <div class="container">
     <button (click)="getData()">FETCH DATA FROM BBC</button>
-    <div *ngIf="error" class="error">
-        {{error}}
+    <div *ngIf="errMsg" class="error">
+        {{errMsg}}
     </div>
 
-    <div *ngIf="html" class="html-content">
-        <iframe [srcdoc]="html" class="preview"></iframe>
+    <div *ngIf="htmlContent" class="html-content">
+        <iframe [srcdoc]="htmlContent" class="preview"></iframe>
     </div>
 </div>

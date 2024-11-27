@@ -1,25 +1,30 @@
 import { Component } from '@angular/core';
 import {WebCrawlerService} from "../web-crawler.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-fetch-data',
-  imports: [],
+  imports: [
+    NgIf
+  ],
   templateUrl: './fetch-data.component.html',
+  standalone: true,
   styleUrl: './fetch-data.component.css'
 })
 export class FetchDataComponent {
-  html: string='';
-  error:string='';
+  htmlContent: string = '';
+  errMsg: string = '';
 
-  constructor(private WebCrawlerService: WebCrawlerService ) {}
+  constructor(private WebCrawlerService: WebCrawlerService) {
+  }
 
   getData(): void {
-    this.WebCrawlerService.getDataFromBBC().subscribe({
+    this.WebCrawlerService.getBBC().subscribe({
       next:(response)=>{
-        this.html=response;
+        this.htmlContent=response;
       },
       error:()=>{
-        this.error='Error fetching data'
+        this.errMsg='Error fetching data'
       }
     })
   }
