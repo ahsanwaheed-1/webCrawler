@@ -12,38 +12,37 @@ export class WebCrawlerService {
   constructor(private http: HttpClient) {
   }
 
-  getBBC():Observable<string> {
-    // return this.http.get(this.url,{responseType: 'text'});
-      return new Observable((observer) => {
-          console.log('Service: Starting HTTP request to', this.url);
+  getBBC():Observable<string[]> {
+    return new Observable<string[]>((observer) => {
+      console.log('Service: Starting HTTP request to', this.url);
 
-          this.http.get(this.url, { responseType: 'text' }).subscribe({
-              next: (response: string) => {
-                  try {
-                      console.log('Service: Raw HTML response:', response);
-                      const $ = cheerio.load(response);
+      this.http.get(this.url, { responseType: 'text' }).subscribe({
+        next: (response: string) => {
+          console.log('Service: Raw HTML response received');
 
-                      // Extract the content with id="card-headline"
-                      const headline = $('#card-headline').text().trim();
-                      console.log('Service: Parsed headline:', headline);
+          // Parse HTML with Cheerio
+          const $ = cheerio.load(response);
 
-                      observer.next(headline); // Emit the headline
-                  } catch (parseError) {
-                      console.error('Service: Parsing error', parseError);
-                      observer.error('Error parsing the HTML'); // Emit an error
-                  } finally {
-                      observer.complete(); // Mark the Observable as complete
-                  }
-              },
-              error: (httpError) => {
-                  console.error('Service: HTTP error occurred:', httpError);
-                  observer.error('Error fetching data'); // Emit an HTTP error
-              },
-              complete: () => {
-                  console.log('Service: HTTP request complete');
-                  observer.complete(); // Ensure the Observable completes
-              },
+          // Extract all headlines
+          const headlines: string[] = [];
+          $('h2[data-testid="card-headline"]').each((_, element) => {
+            const headline = $(element).text().trim();
+            headlines.push(headline);
           });
+
+          console.log('Service: Parsed headlines:', headlines);
+
+          observer.next(headlines); // Emit the headlines array
+          observer.complete();      // Mark the observable as complete
+        },
+        error: (err) => {
+          console.error('Service: Error fetching HTML:', err);
+          observer.error(err);
+        },
+        complete: () => {
+          console.log('Service: HTTP request complete');
+        }
       });
+    });
   }
 }

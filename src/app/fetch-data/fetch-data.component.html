@@ -1,10 +1,9 @@
-<div class="container">
-    <button (click)="getData()">FETCH DATA FROM BBC</button>
-    <div *ngIf="errMsg" class="error">
-        {{errMsg}}
-    </div>
-
-    <div *ngIf="htmlContent" class="html-content">
-        <iframe [srcdoc]="htmlContent" class="preview"></iframe>
-    </div>
+<button (click)="returnCardHeadlines()">Click To Get Data</button>
+<div *ngIf="headlines.length > 0">
+    <h3>Card Headlines</h3>
+    <ul>
+        <li *ngFor="let headline of headlines">{{ headline }}</li>
+    </ul>
 </div>
+<p *ngIf="loading">Loading...</p>
+<p *ngIf="errorMessage">{{ errorMessage }}</p>
