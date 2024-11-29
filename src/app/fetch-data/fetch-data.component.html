@@ -1,8 +1,16 @@
-<button (click)="returnCardHeadlines()">Click To Get Data</button>
-<div *ngIf="headlines.length > 0">
-    <h3>Card Headlines</h3>
+<h2>FETCH NEWS TITLES AND THEIR DESCRIPTION FROM BBC</h2>
+
+<div class="center_container">
+<button (click)="get_Headlines_Descriptions_from_BBC()">GET DATA FROM BBC</button>
+</div>
+
+<div *ngIf="cardDetails.length > 0">
+    <h3>Card Details</h3>
     <ul>
-        <li *ngFor="let headline of headlines">{{ headline }}</li>
+        <li *ngFor="let card of cardDetails">
+            <strong>Headline:</strong> {{ card.headline }}<br>
+            <strong>Description:</strong>{{ card.description }}<br><br>
+        </li>
     </ul>
 </div>
 <p *ngIf="loading">Loading...</p>

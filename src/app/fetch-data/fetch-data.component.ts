@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {WebCrawlerService} from "../web-crawler.service";
 import {NgForOf, NgIf} from "@angular/common";
-import * as cheerio from 'cheerio';
 
 @Component({
   selector: 'app-fetch-data',
@@ -14,22 +13,22 @@ import * as cheerio from 'cheerio';
   styleUrl: './fetch-data.component.css'
 })
 export class FetchDataComponent {
-  headlines: string[] = [];
+  cardDetails: { headline: string; description: string }[] = [];
   loading = false;
   errorMessage: string | null = null;
 
   constructor(private webCrawlerService: WebCrawlerService) {}
 
-  returnCardHeadlines()
-  {
+  get_Headlines_Descriptions_from_BBC(): void {
     this.loading = true;
+
     this.webCrawlerService.getBBC().subscribe({
       next: (data) => {
-        this.headlines = data;
-        console.log('Component: Received headlines:', data);
+        this.cardDetails = data;
+        console.log('Component: Received card details:', data);
       },
       error: (error) => {
-        this.errorMessage = `Error fetching headlines: ${error}`;
+        this.errorMessage = `Error fetching card details: ${error}`;
         console.error('Component: Error:', error);
       },
       complete: () => {
@@ -38,21 +37,4 @@ export class FetchDataComponent {
       }
     });
   }
-  // ngOnInit(): void {
-  //   this.loading = true;
-  //   this.webCrawlerService.getBBC().subscribe({
-  //     next: (data) => {
-  //       this.headlines = data;
-  //       console.log('Component: Received headlines:', data);
-  //     },
-  //     error: (error) => {
-  //       this.errorMessage = `Error fetching headlines: ${error}`;
-  //       console.error('Component: Error:', error);
-  //     },
-  //     complete: () => {
-  //       this.loading = false;
-  //       console.log('Component: Subscription complete');
-  //     }
-  //   });
-  //}
 }
