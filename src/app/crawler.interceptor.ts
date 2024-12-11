@@ -3,13 +3,14 @@ import { HttpInterceptorFn } from '@angular/common/http';
 export const crawlerInterceptor: HttpInterceptorFn = (req, next) => {
   console.log('Interceptor triggered:', req);
 
-  // Modify the request as needed
+  // Clone the request and add a custom header
   const modifiedRequest = req.clone({
     setHeaders: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer YOUR_TOKEN',
+      'X-Custom-Header': 'CustomValue', // Example custom header
     },
   });
 
   return next(modifiedRequest);
 };
+
